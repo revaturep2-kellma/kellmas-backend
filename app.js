@@ -1,11 +1,11 @@
-var express = require('express');
-var cookieParser = require('cookie-parser');
-var expressSession = require('express-session');
-var bodyParser = require('body-parser');
-var methodOverride = require('method-override');
-var passport = require('passport');
-var config = require('./config');
-var OIDCStrategy = require('passport-azure-ad').OIDCStrategy;
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const expressSession = require('express-session');
+const bodyParser = require('body-parser');
+const methodOverride = require('method-override');
+const passport = require('passport');
+const config = require('./config');
+const OIDCStrategy = require('passport-azure-ad').OIDCStrategy;
 
 passport.serializeUser((user, done) => {
   done(null, user.oid);
@@ -18,11 +18,11 @@ passport.deserializeUser((oid, done) => {
 });
 
 // array to hold logged in users
-var users = [];
+const users = [];
 
-var findByOid = function(oid, fn) {
-  for (var i = 0, len = users.length; i < len; i++) {
-    var user = users[i];
+const findByOid = function(oid, fn) {
+  for (let i = 0, len = users.length; i < len; i++) {
+    let user = users[i];
     console.info('we are using user: ', user);
     if (user.oid === oid) {
       return fn(null, user);
@@ -72,7 +72,7 @@ passport.use(new OIDCStrategy({
 })
 ));
 
-var app = express();
+const app = express();
 
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
