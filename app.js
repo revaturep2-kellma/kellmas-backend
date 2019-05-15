@@ -7,29 +7,17 @@ const passport = require('passport');
 const config = require('./config');
 const OIDCStrategy = require('passport-azure-ad').OIDCStrategy;
 
+const User = require('./models/user-model');
+
 passport.serializeUser((user, done) => {
   done(null, user.oid);
 });
 
 passport.deserializeUser((oid, done) => {
-  findByOid(oid, (err, user) => {
-    done(err, user);
-  });
+  User.findOne({ where: { oid } })
+    .then(user => done(null, user))
+    .catch(err => done(err));
 });
-
-// array to hold logged in users
-const users = [];
-
-const findByOid = function(oid, fn) {
-  for (let i = 0, len = users.length; i < len; i++) {
-    let user = users[i];
-    console.info('we are using user: ', user);
-    if (user.oid === oid) {
-      return fn(null, user);
-    }
-  }
-  return fn(null, null);
-};
 
 passport.use(new OIDCStrategy({
   identityMetadata: config.creds.identityMetadata,
@@ -55,20 +43,18 @@ passport.use(new OIDCStrategy({
   if (!profile.oid) {
     return done(new Error('No oid found'), null);
   }
-  // asynchronous verification, for effect...
-  process.nextTick(() => {
-    findByOid(profile.oid, (err, user) => {
-      if (err) {
-        return done(err);
+
+  // Search DB for user. Create user if it does not exist.
+  User.findOne({ where: { oid: profile.oid } })
+    .then(user => {
+      if (user) {
+        return done(null, user);
       }
-      if (!user) {
-        // "Auto-registration"
-        users.push(profile);
-        return done(null, profile);
-      }
-      return done(null, user);
-    });
-  });
+      User.create({ oid: profile.oid })
+        .then(newUser => done(null, newUser))
+        .catch(err => done(err));
+    })
+    .catch(err => done(err));
 })
 ));
 
