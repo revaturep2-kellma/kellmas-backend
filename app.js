@@ -15,6 +15,7 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((oid, done) => {
+  console.log('oid: ', oid);
   User.findOne({ where: { oid } })
     .then(user => done(null, user))
     .catch(err => done(err));
@@ -68,10 +69,6 @@ app.get('/login',
     res.redirect('/');
   });
 
-// 'GET returnURL'
-// `passport.authenticate` will try to authenticate the content returned in
-// query (such as authorization code). If authentication fails, user will be
-// redirected to '/' (home page); otherwise, it passes to the next middleware.
 app.get('/auth/openid/return',
   (req, res, next) => {
     passport.authenticate('azuread-openidconnect',
@@ -86,10 +83,6 @@ app.get('/auth/openid/return',
     res.redirect('/');
   });
 
-// 'POST returnURL'
-// `passport.authenticate` will try to authenticate the content returned in
-// body (such as authorization code). If authentication fails, user will be
-// redirected to '/' (home page); otherwise, it passes to the next middleware.
 app.post('/auth/openid/return',
   (req, res, next) => {
     passport.authenticate('azuread-openidconnect',
@@ -101,7 +94,7 @@ app.post('/auth/openid/return',
   },
   (req, res) => {
     console.info('We received a return from AzureAD.');
-    res.redirect('/');
+    res.redirect(`/?token=${req.body.id_token}`);
   });
 
 // 'logout' route, logout from passport, and destroy the session with AAD.
