@@ -5,7 +5,9 @@ const expressSession = require('express-session');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const passport = require('passport');
+
 const config = require('./config');
+const bearerStrategy = require('./passport/bearer-strategy');
 const oidcStrategy = require('./passport/oidc-strategy');
 const CLIENT_ORIGIN = 'http://localhost:3000';
 const User = require('./models/user-model');
@@ -23,6 +25,7 @@ passport.deserializeUser((oid, done) => {
 });
 
 passport.use(oidcStrategy);
+passport.use(bearerStrategy);
 
 const app = express();
 
@@ -107,7 +110,10 @@ app.get('/logout', (req, res) => {
   });
 });
 
-app.get('/main', (req, res) => {
+// Sample endpoint for authentication
+app.get('/main', passport.authenticate('oauth-bearer', {
+  session: false
+}), (req, res) => {
   res.json('working');
 });
 
