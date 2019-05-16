@@ -3,7 +3,6 @@ const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const methodOverride = require('method-override');
 const passport = require('passport');
 
 const CLIENT_ORIGIN = process.env.CLIENT_ORIGIN;
@@ -29,10 +28,8 @@ passport.use(bearerStrategy);
 const app = express();
 
 app.use(cors({ origin: CLIENT_ORIGIN }));
-app.use(methodOverride());
 app.use(cookieParser());
 
-// set up session middleware
 app.use(bodyParser.urlencoded({ extended : true }));
 app.use(passport.initialize());
 
