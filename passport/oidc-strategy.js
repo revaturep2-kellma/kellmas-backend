@@ -1,9 +1,8 @@
-require('dotenv').config();
 const OIDCStrategy = require('passport-azure-ad').OIDCStrategy;
 const User = require('../models/user-model');
 const config = require('../config');
 
-const oidcStrategy = new OIDCStrategy({
+const options = {
   identityMetadata: config.creds.identityMetadata,
   clientID: config.creds.clientID,
   responseType: config.creds.responseType,
@@ -22,8 +21,9 @@ const oidcStrategy = new OIDCStrategy({
   useCookieInsteadOfSession: config.creds.useCookieInsteadOfSession,
   cookieEncryptionKeys: config.creds.cookieEncryptionKeys,
   clockSkew: config.creds.clockSkew,
-},
-((iss, sub, profile, accessToken, refreshToken, done) => {
+};
+
+const oidcStrategy = new OIDCStrategy(options, ((iss, sub, profile, accessToken, refreshToken, done) => {
   if (!profile.oid) {
     return done(new Error('No oid found'), null);
   }
