@@ -1,5 +1,5 @@
 'use strict';
-
+require('dotenv').config();
 var Sequelize = require('sequelize');
 var sequelize = new Sequelize(process.env.DATABASE_URI);
 
@@ -19,27 +19,27 @@ var User = sequelize.define( 'users', {
     allowNull: false
   },
   oid: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    unique:  true
-  },
-  name: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    unique:  true
-  },
-  password: {
-    type: Sequelize.STRING,
-    allowNull: false
-  },
-  email: {
     type: Sequelize.TEXT,
-    unique: true,
     allowNull: false,
-    validate: {
-      isEmail: true
-    }
-  }
+    unique:  true
+  },
+  username: {
+    type: Sequelize.TEXT,
+    allowNull: false,
+    unique:  true
+  },
+  // password: {
+  //   type: Sequelize.STRING,
+  //   allowNull: false
+  // },
+  // email: {
+  //   type: Sequelize.TEXT,
+  //   unique: true,
+  //   allowNull: false,
+  //   validate: {
+  //     isEmail: true
+  //   }
+  // }
 });
 
 var GroupName = sequelize.define( 'groupName', {
