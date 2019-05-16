@@ -10,6 +10,7 @@ const bearerStrategy = require('./passport/bearer-strategy');
 const oidcStrategy = require('./passport/oidc-strategy');
 const User = require('./models/user-model');
 const authRouter = require('./routers/auth-router');
+const userRouter = require('./routers/user-router');
 
 // Setup passport
 passport.serializeUser((user, done) => {
@@ -30,11 +31,13 @@ const app = express();
 app.use(cors({ origin: CLIENT_ORIGIN }));
 app.use(cookieParser());
 
+app.use(express.json());
 app.use(bodyParser.urlencoded({ extended : true }));
 app.use(passport.initialize());
 
 // Mount routers
 app.use('/auth/openid', authRouter);
+app.use('/users', userRouter);
 
 // Sample endpoint for authentication
 app.get('/main', passport.authenticate('oauth-bearer', {

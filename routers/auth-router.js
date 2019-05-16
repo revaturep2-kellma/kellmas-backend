@@ -31,7 +31,7 @@ router.get('/return',
     )(req, res, next);
   },
   (req, res) => {
-    res.redirect('/');
+    res.redirect(`${CLIENT_ORIGIN}/?token=${req.body.id_token}`);
   });
 
 router.post('/return',
