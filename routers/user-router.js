@@ -9,14 +9,14 @@ router.post('/', (req, res) => {
   const { username, password, userPrincipalName } = req.body;
 
   if (!username || !password || !userPrincipalName) {
-    res.json('missing field');
+    return res.json('missing field');
   }
 
   shell.exec(`${scriptDir}/user.sh ${username} ${password} ${userPrincipalName} `, (code, stdout, stderr) => {
     if (stderr) {
-      res.json('there was a problem');
+      return res.json('there was a problem');
     } else {
-      res.json(`Account created. Please log in with the email: ${userPrincipalName}`);
+      return res.json(`Account created. Please log in with the email: ${userPrincipalName}`);
     }
   });
 
