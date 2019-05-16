@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
@@ -9,7 +10,7 @@ const passport = require('passport');
 const config = require('./config');
 const bearerStrategy = require('./passport/bearer-strategy');
 const oidcStrategy = require('./passport/oidc-strategy');
-const CLIENT_ORIGIN = 'http://localhost:3000';
+const CLIENT_ORIGIN = process.env.CLIENT_ORIGIN;
 const User = require('./models/user-model');
 
 // Setup passport
@@ -99,7 +100,7 @@ app.post('/auth/openid/return',
   },
   (req, res) => {
     console.info('We received a return from AzureAD.');
-    res.redirect(`http://localhost:3000/?token=${req.body.id_token}`);
+    res.redirect(`${CLIENT_ORIGIN}/?token=${req.body.id_token}`);
   });
 
 // 'logout' route, logout from passport, and destroy the session with AAD.
