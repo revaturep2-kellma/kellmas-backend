@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const expressSession = require('express-session');
 const bodyParser = require('body-parser');
@@ -6,7 +7,7 @@ const methodOverride = require('method-override');
 const passport = require('passport');
 const config = require('./config');
 const oidcStrategy = require('./passport/oidc-strategy');
-
+const CLIENT_ORIGIN = 'http://localhost:3000';
 const User = require('./models/user-model');
 
 // Setup passport
@@ -25,6 +26,7 @@ passport.use(oidcStrategy);
 
 const app = express();
 
+app.use(cors({ origin: CLIENT_ORIGIN }));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.use(methodOverride());
@@ -94,7 +96,7 @@ app.post('/auth/openid/return',
   },
   (req, res) => {
     console.info('We received a return from AzureAD.');
-    res.redirect(`/?token=${req.body.id_token}`);
+    res.redirect(`http://localhost:3000/?token=${req.body.id_token}`);
   });
 
 // 'logout' route, logout from passport, and destroy the session with AAD.
@@ -103,6 +105,10 @@ app.get('/logout', (req, res) => {
     req.logOut();
     res.redirect(config.destroySessionUrl);
   });
+});
+
+app.get('/main', (req, res) => {
+  res.json('working');
 });
 
 app.listen(3001);
