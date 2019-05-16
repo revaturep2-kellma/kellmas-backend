@@ -17,6 +17,7 @@
         "object-curly-spacing": ["error", "always"],
         "keyword-spacing":"error",
         "space-infix-ops":"error",
-        "prefer-arrow-callback":"error"
+        "prefer-arrow-callback":"error",
+        "no-console":"off"
     }
 }
