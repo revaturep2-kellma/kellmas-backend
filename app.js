@@ -31,8 +31,6 @@ passport.use(bearerStrategy);
 const app = express();
 
 app.use(cors({ origin: CLIENT_ORIGIN }));
-app.set('views', __dirname + '/views');
-app.set('view engine', 'ejs');
 app.use(methodOverride());
 app.use(cookieParser());
 
@@ -44,20 +42,6 @@ app.use(bodyParser.urlencoded({ extended : true }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(__dirname + '/../../public'));
-
-function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) { return next(); }
-  res.redirect('/login');
-}
-
-app.get('/', (req, res) => {
-  res.render('index', { user: req.user });
-});
-
-// '/account' is only available to logged in user
-app.get('/account', ensureAuthenticated, (req, res) => {
-  res.render('account', { user: req.user });
-});
 
 app.get('/login',
   (req, res, next) => {
