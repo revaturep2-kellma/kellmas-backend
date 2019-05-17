@@ -15,7 +15,7 @@ router.post('/', (req, res) => {
 
   shell.exec(`${scriptDir}/user.sh ${username} ${password} ${userPrincipalName} `, (code, stdout, stderr) => {
     if (stderr) {
-      return res.json({ error: 'there was a problem' });
+      return res.json({ error: stderr });
     } else {
       return res.json({ success: `Account created. Please log in with the email: ${userPrincipalName}` });
     }
