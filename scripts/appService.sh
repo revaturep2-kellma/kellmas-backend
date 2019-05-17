@@ -12,4 +12,3 @@ fi
 
 # Create an App Service 
 az appservice plan create --name $servicePlanName --resource-group $groupName --sku "F1" --location southcentralus --is-linux
-
