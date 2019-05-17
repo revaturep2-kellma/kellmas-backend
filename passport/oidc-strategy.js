@@ -1,5 +1,5 @@
 const OIDCStrategy = require('passport-azure-ad').OIDCStrategy;
-const User = require('../models/user-model');
+const { User } = require('../models/models');
 const config = require('../config');
 
 const options = {
@@ -34,7 +34,13 @@ const oidcStrategy = new OIDCStrategy(options, ((iss, sub, profile, accessToken,
       if (user) {
         return done(null, user);
       }
-      User.create({ oid: profile.oid })
+
+      const newUser = {
+        oid: profile.oid,
+        username: profile.displayName
+      };
+
+      User.create(newUser)
         .then(newUser => done(null, newUser))
         .catch(err => done(err));
     })
