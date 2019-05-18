@@ -17,10 +17,15 @@ router.post('/', (req, res) => {
     if (stderr) {
       return res.json({ error: stderr });
     } else {
-      return res.json({ success: `Account created. Please log in with the email: ${userPrincipalName}` });
+      shell.exec(`${scriptDir}/resourceGroup.sh ${username}`, (code, stdout, stderr) => {
+        if (stderr) {
+          return res.json({ error: stderr });
+        } else {
+          return res.json({ success: `Account created. Please log in with the email: ${userPrincipalName}` });
+        }
+      });
     }
   });
-
 });
 
 
