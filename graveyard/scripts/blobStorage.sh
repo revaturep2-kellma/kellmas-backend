@@ -3,8 +3,7 @@
 groupName=$1
 storageAccountName=$2
 location=southcentralus
-servicePlanName=$3
-appName=$4
+appName=$3
 
 storageCheck=$(az storage account list --query [].name | grep -E $storageAccountName)
 
@@ -21,14 +20,14 @@ az storage account create \
     --sku Standard_LRS \
     --access-tier hot
 
-blobStorageAccountKey=$(az storage account keys list -g $groupName \
--n $storageAccountName --query [0].value --output tsv)
+# blobStorageAccountKey=$(az storage account keys list -g $groupName \
+# -n $storageAccountName --query [0].value --output tsv)
 
-az storage container create -n images --account-name $storageAccountName \
---account-key $blobStorageAccountKey --public-access off
+# az storage container create -n images --account-name $storageAccountName \
+# --account-key $blobStorageAccountKey --public-access off
 
-# Config the Web App a web app to storage account.
+# # Config the Web App a web app to storage account.
 
-az webapp config appsettings set -g $groupName -n $appName --settings AZURE_STORAGE_ACCOUNT_NAME=$appName
-az webapp config appsettings set -g $groupName -n $appName --settings AZURE_STORAGE_ACCOUNT_ACCESS_KEY=$blobStorageAccountKey
+# az webapp config appsettings set -g $groupName -n $appName --settings AZURE_STORAGE_ACCOUNT_NAME=$appName
+# az webapp config appsettings set -g $groupName -n $appName --settings AZURE_STORAGE_ACCOUNT_ACCESS_KEY=$blobStorageAccountKey
 
