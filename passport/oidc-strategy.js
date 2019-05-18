@@ -1,5 +1,4 @@
 const OIDCStrategy = require('passport-azure-ad').OIDCStrategy;
-const { User } = require('../models/models');
 const config = require('../config');
 
 const options = {
@@ -28,23 +27,7 @@ const oidcStrategy = new OIDCStrategy(options, ((iss, sub, profile, accessToken,
     return done(new Error('No oid found'), null);
   }
 
-  // Search DB for user. Create user if it does not exist.
-  User.findOne({ where: { oid: profile.oid } })
-    .then(user => {
-      if (user) {
-        return done(null, user);
-      }
-
-      const newUser = {
-        oid: profile.oid,
-        username: profile.displayName
-      };
-
-      User.create(newUser)
-        .then(newUser => done(null, newUser))
-        .catch(err => done(err));
-    })
-    .catch(err => done(err));
+  done(null, profile.oid);
 }));
 
 module.exports = oidcStrategy;

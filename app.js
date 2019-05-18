@@ -10,21 +10,18 @@ const CLIENT_ORIGIN = process.env.CLIENT_ORIGIN;
 const PORT = process.env.PORT || 3001;
 const bearerStrategy = require('./passport/bearer-strategy');
 const oidcStrategy = require('./passport/oidc-strategy');
-const User = require('./models/user-model');
 const authRouter = require('./routers/auth-router');
 const userRouter = require('./routers/user-router');
 
 const app = express();
 
 // Setup passport
-passport.serializeUser((user, done) => {
-  done(null, user.oid);
+passport.serializeUser((oid, done) => {
+  done(null, oid);
 });
 
 passport.deserializeUser((oid, done) => {
-  User.findOne({ where: { oid } })
-    .then(user => done(null, user))
-    .catch(err => done(err));
+  done(null, oid);
 });
 
 passport.use(oidcStrategy);
