@@ -6,18 +6,18 @@ const router = express.Router();
 const scriptDir = path.join(__dirname, '../scripts');
 
 router.post('/', (req, res) => {
-  const { displayName, password } = req.body;
+  const { groupName, servicePlanName, appName, gitrepo } = req.body;
 
-  if (!groupName || !netName) {
+  if (!groupName || !servicePlanName || appName || gitrepo) {
     return res.json({ error: 'missing field' });
   }
 
 
-  shell.exec(`${scriptDir}/vnet.sh ${groupName} ${netName} `, (code, stdout, stderr) => {
+  shell.exec(`${scriptDir}/webApp.sh ${groupName} ${servicePlanName} ${appName} ${gitrepo} `, (code, stdout, stderr) => {
     if (stderr) {
       return res.json({ error: stderr });
     } else {
-      return res.json({ success: `Network ${netName} created` });
+      return res.json({ success: `App ${appName} created` });
     }
   });
 

@@ -2,7 +2,6 @@
 
 groupName=$1
 servicePlanName=$2
-gitrepo=$3
 
 planCheck=$(az appservice plan list --query [].name | grep -E $servicePlanName)
 
