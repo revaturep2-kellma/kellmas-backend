@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const shell = require('shelljs');
@@ -6,12 +7,13 @@ const router = express.Router();
 const scriptDir = path.join(__dirname, '../scripts');
 
 router.post('/', (req, res) => {
-  const { username, password, userPrincipalName } = req.body;
+  const { username, password } = req.body;
 
-  if (!username || !password || !userPrincipalName) {
+  if (!username || !password) {
     return res.json({ error: 'missing field' });
   }
 
+  const userPrincipalName = username + '@' + process.env.AZ_DOMAIN;
 
   shell.exec(`${scriptDir}/adminUser.sh ${username} ${password} ${userPrincipalName} `, (code, stdout, stderr) => {
     if (stderr) {

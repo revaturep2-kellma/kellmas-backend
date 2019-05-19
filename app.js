@@ -36,15 +36,21 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended : true }));
 app.use(passport.initialize());
 
+const bearerOption = passport.authenticate('oauth-bearer', {
+  session: false
+});
+
 // Mount routers
 app.use('/auth/openid', authRouter);
 app.use('/adminUsers', userRouter);
-app.use('/newUsers', newUserRouter);
+app.use('/newUsers', bearerOption, newUserRouter);
+
+app.get('/', (req, res) => {
+  res.send('Hello World');
+});
 
 // Sample endpoint for authentication
-app.get('/main', passport.authenticate('oauth-bearer', {
-  session: false
-}), (req, res) => {
+app.get('/main', bearerOption, (req, res) => {
   res.json('working');
 });
 
