@@ -7,16 +7,16 @@ const router = express.Router();
 const scriptDir = path.join(__dirname, '../scripts');
 
 router.post('/', (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, groupName } = req.body;
 
-  if (!username || !password) {
+  if (!username || !password || !groupName) {
     return res.json({ error: 'missing field' });
   }
 
   const userPrincipalName = username + '@' + process.env.AZ_DOMAIN;
 
   console.log(password);
-  shell.exec(`${scriptDir}/readerUser.sh ${username} ${password} ${userPrincipalName} `, (code, stdout, stderr) => {
+  shell.exec(`${scriptDir}/readerUser.sh ${username} ${password} ${userPrincipalName} ${groupName}`, (code, stdout, stderr) => {
     if (stderr) {
       return res.json({ error: stderr });
     } else {
