@@ -6,18 +6,18 @@ const router = express.Router();
 const scriptDir = path.join(__dirname, '../scripts');
 
 router.post('/', (req, res) => {
-  const { groupName, netName } = req.body;
+  const { username, password, userPrincipalName } = req.body;
 
-  if (!groupName || !netName) {
+  if (!username || !password || userPrincipalName) {
     return res.json({ error: 'missing field' });
   }
 
 
-  shell.exec(`${scriptDir}/readerUser.sh ${groupName} ${netName} `, (code, stdout, stderr) => {
+  shell.exec(`${scriptDir}/readerUser.sh ${username} ${password} ${userPrincipalName} `, (code, stdout, stderr) => {
     if (stderr) {
       return res.json({ error: stderr });
     } else {
-      return res.json({ success: `Network ${netName} created` });
+      return res.json({ success: ` ${userPrincipalName} created` });
     }
   });
 
