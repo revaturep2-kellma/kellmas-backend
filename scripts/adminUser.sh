@@ -3,6 +3,7 @@
 displayName=$1
 password=$2
 principalName=$3
+groupName=$4
 
 userCheck=$(az ad user list --query [].name | grep -E $principalName)
 
