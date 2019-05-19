@@ -17,7 +17,7 @@ router.post('/', (req, res) => {
     if (stderr) {
       return res.json({ error: stderr });
     } else {
-      return res.json({ success: ` ${userPrincipalName} created` });
+      return res.json({ success: `User ${userPrincipalName} created` });
     }
   });
 
