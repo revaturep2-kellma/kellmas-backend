@@ -6,7 +6,6 @@ serverName=$3
 groupName=$4
 dbName=$5
 
-
 serverCheck=$(az sql server list --query [].name | grep -E $serverName)
 
 if [ -n "$serverCheck" ]; then 
@@ -15,7 +14,7 @@ fi
 
 az sql server create --admin-password $serverPassword --admin-user $serverUser --location southcentralus --name $serverName --resource-group $groupName
 
-dbCheck=$(az sql server list --query [].name | grep -E $dbName)
+dbCheck=$(az sql db list --query [].name | grep -E $dbName)
 
 if [ -n "$dbCheck" ]; then 
     echo "this Database name already exist please choose another"
