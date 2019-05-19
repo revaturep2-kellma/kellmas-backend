@@ -41,6 +41,10 @@ app.use('/auth/openid', authRouter);
 app.use('/adminUsers', userRouter);
 app.use('/newUsers', newUserRouter);
 
+app.get('/', (req, res) => {
+  res.send('Hello World');
+});
+
 // Sample endpoint for authentication
 app.get('/main', passport.authenticate('oauth-bearer', {
   session: false
