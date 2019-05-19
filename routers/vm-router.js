@@ -11,13 +11,13 @@ router.post('/', (req, res) => {
   if (!username || !password || !userPrincipalName) {
     return res.json({ error: 'missing field' });
   }
-  
-  console.log(password);
-  shell.exec(`${scriptDir}/readerUser.sh ${username} ${password} ${userPrincipalName} `, (code, stdout, stderr) => {
+
+
+  shell.exec(`${scriptDir}/vm.sh ${username} ${password} ${userPrincipalName} `, (code, stdout, stderr) => {
     if (stderr) {
       return res.json({ error: stderr });
     } else {
-      return res.json({ success: ` ${userPrincipalName} created` });
+      return res.json({ success: `Account created. Please log in with the email: ${userPrincipalName}` });
     }
   });
 
