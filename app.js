@@ -37,7 +37,7 @@ app.use(passport.initialize());
 
 // Mount routers
 app.use('/auth/openid', authRouter);
-app.use('/users', userRouter);
+app.use('/adminUsers', userRouter);
 
 // Sample endpoint for authentication
 app.get('/main', passport.authenticate('oauth-bearer', {

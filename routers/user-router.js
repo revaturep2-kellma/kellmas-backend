@@ -13,7 +13,7 @@ router.post('/', (req, res) => {
   }
 
 
-  shell.exec(`${scriptDir}/user.sh ${username} ${password} ${userPrincipalName} `, (code, stdout, stderr) => {
+  shell.exec(`${scriptDir}/adminUser.sh ${username} ${password} ${userPrincipalName} `, (code, stdout, stderr) => {
     if (stderr) {
       return res.json({ error: stderr });
     } else {
