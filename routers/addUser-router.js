@@ -8,7 +8,7 @@ const scriptDir = path.join(__dirname, '../scripts');
 router.post('/', (req, res) => {
   const { username, password, userPrincipalName } = req.body;
 
-  if (!username || !password || userPrincipalName) {
+  if (!username || !password || !userPrincipalName) {
     return res.json({ error: 'missing field' });
   }
 
