@@ -13,6 +13,7 @@ const oidcStrategy = require('./passport/oidc-strategy');
 const authRouter = require('./routers/auth-router');
 const userRouter = require('./routers/user-router');
 const newUserRouter = require('./routers/addUser-router');
+const newSQLRouter = require('./routers/mySQL-router');
 
 const app = express();
 
@@ -44,6 +45,8 @@ const bearerOption = passport.authenticate('oauth-bearer', {
 app.use('/auth/openid', authRouter);
 app.use('/adminUsers', userRouter);
 app.use('/newUsers', bearerOption, newUserRouter);
+app.use('/newSQL', bearerOption, newSQLRouter);
+
 
 app.get('/', (req, res) => {
   res.send('Hello World');
