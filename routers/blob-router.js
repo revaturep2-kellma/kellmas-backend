@@ -6,18 +6,18 @@ const router = express.Router();
 const scriptDir = path.join(__dirname, '../scripts');
 
 router.post('/', (req, res) => {
-  const { groupName, storageAccountName, appName } = req.body;
+  const { groupName, blobName } = req.body;
 
-  if (!groupName || !storageAccountName, appName) {
+  if (!groupName || !blobName) {
     return res.json({ error: 'missing field' });
   }
 
 
-  shell.exec(`${scriptDir}/blobStorage.sh ${groupName} ${storageAccountName}, ${appName} `, (code, stdout, stderr) => {
+  shell.exec(`${scriptDir}/blobStorage.sh ${groupName} ${blobName} `, (code, stdout, stderr) => {
     if (stderr) {
       return res.json({ error: stderr });
     } else {
-      return res.json({ success: `Storage account ${storageAccountName} created` });
+      return res.json({ success: `Storage account ${blobName} created` });
     }
   });
 

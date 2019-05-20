@@ -3,7 +3,6 @@
 groupName=$1
 storageAccountName=$2
 location=southcentralus
-appName=$3
 
 storageCheck=$(az storage account list --query [].name | grep -E $storageAccountName)
 
