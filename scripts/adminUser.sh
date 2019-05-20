@@ -13,9 +13,12 @@ fi
 
 az ad user create --display-name $displayName --password $password --user-principal-name $principalName
 
+az ad group create --display-name $displayName --mail-nickname $displayName
+
+userOID=$(az ad user show --upn-or-object-id $principalName --query objectId -o tsv)
+
+az ad group member add -g $displayName --member-id $userOID
+
 az group create --name $groupName --location southcentralus
 
 az role assignment create --assignee $principalName --role Owner --resource-group $groupName
-
-
-
