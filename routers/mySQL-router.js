@@ -6,14 +6,14 @@ const router = express.Router();
 const scriptDir = path.join(__dirname, '../scripts');
 
 router.post('/', (req, res) => {
-  const { groupName, serverPassword, serverUsername, serverName, dbName } = req.body;
+  const { serverPassword, serverUsername, serverName, groupName, dbName } = req.body;
 
   if (!groupName || !serverPassword || !serverUsername || !serverName || !dbName) {
     return res.json({ error: 'missing field' });
   }
 
 
-  shell.exec(`${scriptDir}/mySQL.sh ${groupName} ${serverPassword} ${serverUsername} ${dbName} `, (code, stdout, stderr) => {
+  shell.exec(`${scriptDir}/mySQL.sh ${serverPassword} ${serverUsername} ${serverName} ${groupName} ${dbName} `, (code, stdout, stderr) => {
     if (stderr) {
       return res.json({ error: stderr });
     } else {
