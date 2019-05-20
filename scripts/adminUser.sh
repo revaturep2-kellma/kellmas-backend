@@ -4,6 +4,7 @@ displayName=$1
 password=$2
 principalName=$3
 groupName=$4
+location=$5
 
 userCheck=$(az ad user list --query [].name | grep -E $principalName)
 
@@ -19,6 +20,6 @@ userOID=$(az ad user show --upn-or-object-id $principalName --query objectId -o 
 
 az ad group member add -g $displayName --member-id $userOID
 
-az group create --name $groupName --location southcentralus
+az group create --name $groupName --location $location
 
 az role assignment create --assignee $principalName --role Owner --resource-group $groupName --no-wait
