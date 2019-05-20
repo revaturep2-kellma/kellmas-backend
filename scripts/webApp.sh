@@ -16,4 +16,4 @@ az webapp create --resource-group $groupName --plan $servicePlanName --name $app
 
 # Configure continuous deployment from GitHub.
 az webapp deployment source config --name $appName --resource-group $groupName \
---repo-url $gitrepo --branch master
+--repo-url $gitrepo --branch master --no-wait
