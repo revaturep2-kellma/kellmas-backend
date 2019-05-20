@@ -8,7 +8,7 @@ const scriptDir = path.join(__dirname, '../scripts');
 router.post('/', (req, res) => {
   const { groupName, servicePlanName, webAppName, webAppGitRepo } = req.body;
 
-  if (!groupName || !servicePlanName || webAppName || webAppGitRepo) {
+  if (!groupName || !servicePlanName || !webAppName || !webAppGitRepo) {
     return res.json({ error: 'missing field' });
   }
 
