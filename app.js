@@ -48,6 +48,10 @@ app.use('/adminUsers', userRouter);
 app.use('/newUsers', bearerOption, newUserRouter);
 app.use('/newSQL', bearerOption, newSQLRouter);
 app.use('/newBlob', bearerOption, newBlobRouter);
+app.use('/newNetwork', bearerOption, newNetworkRouter);
+app.use('/newVM', bearerOption, newVMRouter);
+app.use('/newWebApp', bearerOption, newWebAppRouter);
+
 
 app.get('/', (req, res) => {
   res.send('Hello World');

@@ -6,18 +6,18 @@ const router = express.Router();
 const scriptDir = path.join(__dirname, '../scripts');
 
 router.post('/', (req, res) => {
-  const { username, password, userPrincipalName } = req.body;
+  const { vmName, groupName, netName } = req.body;
 
-  if (!username || !password || !userPrincipalName) {
+  if (!vmName || !groupName || !netName) {
     return res.json({ error: 'missing field' });
   }
 
 
-  shell.exec(`${scriptDir}/vm.sh ${username} ${password} ${userPrincipalName} `, (code, stdout, stderr) => {
+  shell.exec(`${scriptDir}/vm.sh ${vmName} ${groupName} ${netName} `, (code, stdout, stderr) => {
     if (stderr) {
       return res.json({ error: stderr });
     } else {
-      return res.json({ success: `Account created. Please log in with the email: ${userPrincipalName}` });
+      return res.json({ success: `VM ${vmName} created` });
     }
   });
 
