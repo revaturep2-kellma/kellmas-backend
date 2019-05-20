@@ -6,18 +6,18 @@ const router = express.Router();
 const scriptDir = path.join(__dirname, '../scripts');
 
 router.post('/', (req, res) => {
-  const { groupName, servicePlanName } = req.body;
+  const { groupName, newASP } = req.body;
 
-  if (!groupName || !servicePlanName) {
+  if (!groupName || !newASP) {
     return res.json({ error: 'missing field' });
   }
 
 
-  shell.exec(`${scriptDir}/appService.sh ${groupName} ${servicePlanName} `, (code, stdout, stderr) => {
+  shell.exec(`${scriptDir}/appService.sh ${groupName} ${newASP} `, (code, stdout, stderr) => {
     if (stderr) {
       return res.json({ error: stderr });
     } else {
-      return res.json({ success: `App service plan ${servicePlanName} created` });
+      return res.json({ success: `App service plan ${newASP} created` });
     }
   });
 
