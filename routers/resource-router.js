@@ -11,12 +11,26 @@ router.get('/', (req, res) => {
 
   shell.exec(`${scriptDir}/showResources.sh ${groupName}`, (code, stdout, stderr) => {
     if (stderr) {
+      return res.json([]);
+    } else {
+      return res.json(JSON.parse(stdout));
+    }
+  });
+});
+
+
+router.delete('/', (req, res) => {
+  const { id } = req.body;
+  console.log(req.body);
+  shell.exec(`${scriptDir}/deleteResource.sh ${id}`, (code, stdout, stderr) => {
+    if (stderr) {
       return res.json({ error: stderr });
     } else {
       return res.json(JSON.parse(stdout));
     }
   });
 });
+
 
 
 module.exports = router;
