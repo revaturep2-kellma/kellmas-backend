@@ -47,4 +47,9 @@ router.post('/return',
     res.redirect(`${CLIENT_ORIGIN}/?token=${req.body.id_token}`);
   });
 
+router.get('/logout', (req, res) => {
+  res.redirect(`https://login.microsoftonline.com/${process.env.AZ_DOMAIN}/oauth2/logout?post_logout_redirect_uri=${CLIENT_ORIGIN}`);
+});
+
+
 module.exports = router;
