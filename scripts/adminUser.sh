@@ -21,4 +21,4 @@ az ad group member add -g $displayName --member-id $userOID
 
 az group create --name $groupName --location southcentralus
 
-az role assignment create --assignee $principalName --role Owner --resource-group $groupName
+az role assignment create --assignee $principalName --role Owner --resource-group $groupName --no-wait

@@ -18,6 +18,7 @@ az storage account create \
     --kind blobstorage \
     --sku Standard_LRS \
     --access-tier hot
+    --no-wait
 
 # blobStorageAccountKey=$(az storage account keys list -g $groupName \
 # -n $storageAccountName --query [0].value --output tsv)

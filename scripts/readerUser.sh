@@ -17,4 +17,4 @@ echo $principalName
 
 az ad user create --display-name $displayName --password $password --user-principal-name $principalName 
 
-az role assignment create --assignee $principalName --role Reader --resource-group $groupName
+az role assignment create --assignee $principalName --role Reader --resource-group $groupName --no-wait

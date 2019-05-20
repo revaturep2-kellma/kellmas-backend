@@ -20,4 +20,4 @@ if [ -n "$dbCheck" ]; then
     echo "this Database name already exist please choose another"
 fi
 
-az sql db create --name $dbName --resource-group $groupName --server $serverName
+az sql db create --name $dbName --resource-group $groupName --server $serverName --no-wait

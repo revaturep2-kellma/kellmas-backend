@@ -10,4 +10,4 @@ if [ -n "$VMcheck" ]; then
     echo "this vm name already exist please choose another"
 fi
 
-az vm create -n $vmName -g $groupName --size B1S --vnet-name $netName --image UbuntuLTS
+az vm create -n $vmName -g $groupName --size B1S --vnet-name $netName --image UbuntuLTS --no-wait

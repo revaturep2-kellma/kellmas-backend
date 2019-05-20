@@ -9,4 +9,4 @@ if [ -n "$groupCheck" ]; then
 fi
 
 # Create a resource group
-az group create --name $groupName --location southcentralus
+az group create --name $groupName --location southcentralus --no-wait
