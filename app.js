@@ -14,6 +14,7 @@ const authRouter = require('./routers/auth-router');
 const userRouter = require('./routers/user-router');
 const newUserRouter = require('./routers/addUser-router');
 const newSQLRouter = require('./routers/mySQL-router');
+const resourceRouter = require('./routers/resource-router');
 
 const app = express();
 
@@ -46,7 +47,7 @@ app.use('/auth/openid', authRouter);
 app.use('/adminUsers', userRouter);
 app.use('/newUsers', bearerOption, newUserRouter);
 app.use('/newSQL', bearerOption, newSQLRouter);
-
+app.use('/resources', bearerOption, resourceRouter);
 
 app.get('/', (req, res) => {
   res.send('Hello World');
