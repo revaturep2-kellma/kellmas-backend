@@ -26,7 +26,7 @@ router.delete('/', (req, res) => {
     if (stderr) {
       return res.json({ error: stderr });
     } else {
-      return res.json(JSON.parse(stdout));
+      return res.json({ success: 'Deleted' });
     }
   });
 });
