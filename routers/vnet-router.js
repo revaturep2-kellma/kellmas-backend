@@ -6,14 +6,14 @@ const router = express.Router();
 const scriptDir = path.join(__dirname, '../scripts');
 
 router.post('/', (req, res) => {
-  const { groupName, netName } = req.body;
+  const { groupName, netName, location } = req.body;
 
-  if (!groupName || !netName) {
+  if (!groupName || !netName || !location) {
     return res.json({ error: 'missing field' });
   }
 
 
-  shell.exec(`${scriptDir}/vnet.sh ${groupName} ${netName} `, (code, stdout, stderr) => {
+  shell.exec(`${scriptDir}/vnet.sh ${groupName} ${netName} ${location} `, (code, stdout, stderr) => {
     if (stderr) {
       return res.json({ error: stderr });
     } else {
