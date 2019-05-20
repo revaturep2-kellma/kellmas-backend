@@ -13,7 +13,7 @@ router.post('/', (req, res) => {
   }
 
 
-  shell.exec(`${scriptDir}/mySQL.sh ${serverPassword} ${serverUsername} ${location} ${serverName} ${groupName} ${dbName} `, (code, stdout, stderr) => {
+  shell.exec(`${scriptDir}/SQL.sh ${serverPassword} ${serverUsername} ${location} ${serverName} ${groupName} ${dbName} `, (code, stdout, stderr) => {
     if (stderr) {
       return res.json({ error: stderr });
     } else {

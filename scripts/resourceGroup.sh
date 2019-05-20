@@ -1,7 +1,6 @@
 #!/bin/bash
 
 groupName=$1
-location=$2
 
 groupCheck=$(az group list --query [].name | grep -E $groupName)
 
@@ -10,4 +9,4 @@ if [ -n "$groupCheck" ]; then
 fi
 
 # Create a resource group
-az group create --name $groupName --location $location --no-wait
+az group create --name $groupName --location southcentralus --no-wait
