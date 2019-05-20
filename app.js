@@ -17,8 +17,8 @@ const newSQLRouter = require('./routers/mySQL-router');
 const newBlobRouter = require('./routers/blob-router');
 const newVMRouter = require('./routers/vm-router');
 const newNetworkRouter = require('./routers/vnet-router');
-const newASPRouter = require('./routers/appService-router');
-// const newWebAppRouter = require('./routers/appService-router');
+// const newASPRouter = require('./routers/appService-router');
+const newWebAppRouter = require('./routers/appService-router');
 const resourceRouter = require('./routers/resource-router');
 
 const app = express();
@@ -55,8 +55,8 @@ app.use('/newSQL', bearerOption, newSQLRouter);
 app.use('/newBlob', bearerOption, newBlobRouter);
 app.use('/newNetwork', bearerOption, newNetworkRouter);
 app.use('/newVM', bearerOption, newVMRouter);
-app.use('/newASP', bearerOption, newASPRouter);
-// app.use('/newWebApp', bearerOption, newWebAppRouter);
+// app.use('/newASP', bearerOption, newASPRouter);
+app.use('/newWebApp', bearerOption, newWebAppRouter);
 app.use('/resources', bearerOption, resourceRouter);
 
 app.get('/', (req, res) => {

@@ -6,18 +6,18 @@ const router = express.Router();
 const scriptDir = path.join(__dirname, '../scripts');
 
 router.post('/', (req, res) => {
-  const { groupName, servicePlanName, appName, gitrepo } = req.body;
+  const { groupName, servicePlanName, webAppName, webAppGitRepo } = req.body;
 
-  if (!groupName || !servicePlanName || appName || gitrepo) {
+  if (!groupName || !servicePlanName || webAppName || webAppGitRepo) {
     return res.json({ error: 'missing field' });
   }
 
 
-  shell.exec(`${scriptDir}/webApp.sh ${groupName} ${servicePlanName} ${appName} ${gitrepo} `, (code, stdout, stderr) => {
+  shell.exec(`${scriptDir}/webApp.sh ${groupName} ${servicePlanName} ${webAppName} ${webAppGitRepo} `, (code, stdout, stderr) => {
     if (stderr) {
       return res.json({ error: stderr });
     } else {
-      return res.json({ success: `App ${appName} created` });
+      return res.json({ success: `App ${webAppName} created on ${servicePlanName} service plan` });
     }
   });
 
