@@ -8,24 +8,24 @@ appName=$5
 appType=$6
 gitrepo=$7
 
-planCheck=$(az appservice plan list --query [].name | grep -E $servicePlanName)
+planCheck=$(az appservice plan list --query [].name | grep -E "$servicePlanName")
 
 if [ -n "$planCheck" ]; then 
     echo "this app services name already exist please choose another"
 fi
 
 # Create an App Service 
-az appservice plan create --resource-group $groupName --name $servicePlanName --sku $servicePlan --location $location --is-linux
+az appservice plan create --resource-group "$groupName" --name "$servicePlanName" --sku "$servicePlan" --location "$location" --is-linux
 
-appCheck=$(az webapp list --query [].name | grep -E $appName)
+appCheck=$(az webapp list --query [].name | grep -E "$appName")
 
 if [ -n "$appCheck" ]; then 
     echo "this web app name already exist please choose another"
 fi
 
 # Create a web app.
-az webapp create --resource-group $groupName --plan $servicePlanName --name $appName -r "$appType"
+az webapp create --resource-group "$groupName" --plan "$servicePlanName" --name "$appName" -r "$appType"
 
 # Configure continuous deployment from GitHub.
-az webapp deployment source config --name $appName --resource-group $groupName \
---repo-url $gitrepo --branch master --no-wait
+az webapp deployment source config --name "$appName" --resource-group "$groupName" \
+--repo-url "$gitrepo" --branch master --no-wait
