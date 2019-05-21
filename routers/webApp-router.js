@@ -13,7 +13,7 @@ router.post('/', (req, res) => {
   }
 
 
-  shell.exec(`${scriptDir}/webApp.sh ${groupName} ${servicePlanName} ${servicePlanType} ${location} ${webAppName} ${webAppType} ${webAppGitRepo} `, (code, stdout, stderr) => {
+  shell.exec(`${scriptDir}/webApp.sh "${groupName}" "${servicePlanName}" "${servicePlanType}" "${location}" "${webAppName}" "${webAppType}" "${webAppGitRepo}" `, (code, stdout, stderr) => {
     if (stderr) {
       return res.json({ error: stderr });
     } else {
