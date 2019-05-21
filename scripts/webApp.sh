@@ -17,7 +17,7 @@ fi
 # Create an App Service 
 az appservice plan create --resource-group $groupName --name $servicePlanName --sku $servicePlan --location $location --is-linux --no-wait
 
-appCheck=$(az webapp list --query [].name | grep -E $appname)
+appCheck=$(az webapp list --query [].name | grep -E $appName)
 
 if [ -n "$appCheck" ]; then 
     echo "this web app name already exist please choose another"
