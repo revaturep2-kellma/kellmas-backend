@@ -24,7 +24,7 @@ if [ -n "$appCheck" ]; then
 fi
 
 # Create a web app.
-az webapp create --resource-group $groupName --plan $servicePlanName --name $appName -r $appType
+az webapp create --resource-group $groupName --plan $servicePlanName --name $appName -r "$appType"
 
 # Configure continuous deployment from GitHub.
 az webapp deployment source config --name $appName --resource-group $groupName \
