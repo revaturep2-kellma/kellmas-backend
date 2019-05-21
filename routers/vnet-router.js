@@ -13,7 +13,7 @@ router.post('/', (req, res) => {
   }
 
 
-  shell.exec(`${scriptDir}/vnet.sh ${groupName} ${netName} ${location} `, (code, stdout, stderr) => {
+  shell.exec(`${scriptDir}/vnet.sh "${groupName}" "${netName}" "${location}" `, (code, stdout, stderr) => {
     if (stderr) {
       return res.json({ error: stderr });
     } else {
