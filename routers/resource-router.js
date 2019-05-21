@@ -22,7 +22,7 @@ router.get('/', (req, res) => {
 router.delete('/', (req, res) => {
   const { id } = req.body;
   console.log(req.body);
-  shell.exec(`${scriptDir}/deleteResource.sh ${id}`, (code, stdout, stderr) => {
+  shell.exec(`${scriptDir}/deleteResource.sh "${id}"`, (code, stdout, stderr) => {
     if (stderr) {
       return res.json({ error: stderr });
     } else {
