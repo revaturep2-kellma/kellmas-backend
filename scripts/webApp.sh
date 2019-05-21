@@ -15,7 +15,7 @@ if [ -n "$planCheck" ]; then
 fi
 
 # Create an App Service 
-az appservice plan create --resource-group $groupName --name $servicePlanName --sku $servicePlan --location $location --is-linux --no-wait
+az appservice plan create --resource-group $groupName --name $servicePlanName --sku $servicePlan --location $location --is-linux
 
 appCheck=$(az webapp list --query [].name | grep -E $appName)
 
