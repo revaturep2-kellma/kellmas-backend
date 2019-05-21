@@ -13,7 +13,7 @@ router.post('/', (req, res) => {
   }
 
 
-  shell.exec(`${scriptDir}/appService.sh ${groupName} ${newASP} `, (code, stdout, stderr) => {
+  shell.exec(`${scriptDir}/appService.sh "${groupName}" "${newASP}" `, (code, stdout, stderr) => {
     if (stderr) {
       return res.json({ error: stderr });
     } else {
