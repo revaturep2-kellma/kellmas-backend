@@ -18,7 +18,7 @@ const newBlobRouter = require('./routers/blob-router');
 const newVMRouter = require('./routers/vm-router');
 const newNetworkRouter = require('./routers/vnet-router');
 // const newASPRouter = require('./routers/appService-router');
-const newWebAppRouter = require('./routers/appService-router');
+const newWebAppRouter = require('./routers/webApp-router');
 const resourceRouter = require('./routers/resource-router');
 
 const app = express();
