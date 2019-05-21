@@ -16,7 +16,7 @@ router.post('/', (req, res) => {
   const userPrincipalName = username + '@' + process.env.AZ_DOMAIN;
 
   console.log(password);
-  shell.exec(`${scriptDir}/readerUser.sh ${username} ${password} ${userPrincipalName} ${groupName}`, (code, stdout, stderr) => {
+  shell.exec(`${scriptDir}/readerUser.sh "${username}" "${password}" "${userPrincipalName}" "${groupName}"`, (code, stdout, stderr) => {
     if (stderr) {
       return res.json({ error: stderr });
     } else {
