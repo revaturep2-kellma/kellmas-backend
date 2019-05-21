@@ -13,7 +13,7 @@ router.post('/', (req, res) => {
   }
 
 
-  shell.exec(`${scriptDir}/blobStorage.sh ${groupName} ${blobName} ${location} ${storagePlan}`, (code, stdout, stderr) => {
+  shell.exec(`${scriptDir}/blobStorage.sh "${groupName}" "${blobName}" "${location}" "${storagePlan}"`, (code, stdout, stderr) => {
     if (stderr) {
       return res.json({ error: stderr });
     } else {
