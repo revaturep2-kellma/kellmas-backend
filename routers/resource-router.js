@@ -13,9 +13,6 @@ router.get('/', (req, res) => {
       return res.json({ error: stderr });
     } else {
       stdout = JSON.parse(stdout);
-      if (!stdout || stdout.role !== 'Owner') {
-        return res.json({ error: 'Insufficient privilege. Must be owner to create a new user.' });
-      }
       shell.exec(`${scriptDir}/showResources.sh ${stdout.groupName}`, (code, stdout, stderr) => {
         if (stderr) {
           return res.json([]);
