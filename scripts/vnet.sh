@@ -10,5 +10,5 @@ if [ -n "$vnetCheck" ]; then
     echo "this network already exist please choose another"
 fi
 
-az network vnet create -g "$groupName" -n "$netName" --location "$location" --no-wait
+az network vnet create -g "$groupName" -n "$netName" --location "$location"
 
