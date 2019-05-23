@@ -21,7 +21,7 @@ router.post('/', (req, res) => {
         return res.json({ error: 'Insufficient privilege. Must be owner to create a new user.' });
       }
 
-      shell.exec(`${scriptDir}/SQL.sh "${serverPassword}" "${serverUsername}" "${location}" "${serverName}" "${stdout.groupName}" "${dbName}" `, (code, stdout, stderr) => {
+      shell.exec(`${scriptDir}/SQL.sh "${serverPassword}" "${serverUsername}" "${location}" "${serverName}" "${stdout.resourceGroup}" "${dbName}" `, (code, stdout, stderr) => {
         if (stderr) {
           return res.json({ error: stderr });
         } else {

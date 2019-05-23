@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
       return res.json({ error: stderr });
     } else {
       stdout = JSON.parse(stdout);
-      shell.exec(`${scriptDir}/showResources.sh ${stdout.groupName}`, (code, stdout, stderr) => {
+      shell.exec(`${scriptDir}/showResources.sh ${stdout.resourceGroup}`, (code, stdout, stderr) => {
         if (stderr) {
           return res.json([]);
         } else {

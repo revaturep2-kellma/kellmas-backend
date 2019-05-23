@@ -20,7 +20,7 @@ router.post('/', (req, res) => {
       if (!stdout || stdout.role !== 'Owner') {
         return res.json({ error: 'Insufficient privilege. Must be owner to create a new user.' });
       }
-      shell.exec(`${scriptDir}/webApp.sh "${stdout.groupName}" "${servicePlanName}" "${servicePlanType}" "${location}" "${webAppName}" "${webAppType}" "${webAppGitRepo}" `, (code, stdout, stderr) => {
+      shell.exec(`${scriptDir}/webApp.sh "${stdout.resourceGroup}" "${servicePlanName}" "${servicePlanType}" "${location}" "${webAppName}" "${webAppType}" "${webAppGitRepo}" `, (code, stdout, stderr) => {
         if (stderr) {
           return res.json({ error: stderr });
         } else {

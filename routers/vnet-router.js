@@ -20,7 +20,7 @@ router.post('/', (req, res) => {
       if (!stdout || stdout.role !== 'Owner') {
         return res.json({ error: 'Insufficient privilege. Must be owner to create a new user.' });
       }
-      shell.exec(`${scriptDir}/vnet.sh "${stdout.groupName}" "${netName}" "${location}" `, (code, stdout, stderr) => {
+      shell.exec(`${scriptDir}/vnet.sh "${stdout.resourceGroup}" "${netName}" "${location}" `, (code, stdout, stderr) => {
         if (stderr) {
           return res.json({ error: stderr });
         } else {
