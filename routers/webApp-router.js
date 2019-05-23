@@ -6,21 +6,29 @@ const router = express.Router();
 const scriptDir = path.join(__dirname, '../scripts');
 
 router.post('/', (req, res) => {
-  const { groupName, servicePlanName, servicePlanType,location, webAppName, webAppType, webAppGitRepo } = req.body;
+  const { servicePlanName, servicePlanType,location, webAppName, webAppType, webAppGitRepo } = req.body;
 
-  if (!groupName || !servicePlanName || !servicePlanType || !location || !webAppName || !webAppType || !webAppGitRepo) {
+  if (!servicePlanName || !servicePlanType || !location || !webAppName || !webAppType || !webAppGitRepo) {
     return res.json({ error: 'missing field' });
   }
 
-
-  shell.exec(`${scriptDir}/webApp.sh "${groupName}" "${servicePlanName}" "${servicePlanType}" "${location}" "${webAppName}" "${webAppType}" "${webAppGitRepo}" `, (code, stdout, stderr) => {
+  shell.exec(`${scriptDir}/findGroup.sh "${req.user.oid}"`, (code, stdout, stderr) => {
     if (stderr) {
       return res.json({ error: stderr });
     } else {
-      return res.json({ success: `App ${webAppName} created on ${servicePlanName} service plan` });
+      stdout = JSON.parse(stdout);
+      if (!stdout || stdout.role !== 'Owner') {
+        return res.json({ error: 'Insufficient privilege. Must be owner to create a new user.' });
+      }
+      shell.exec(`${scriptDir}/webApp.sh "${stdout.groupName}" "${servicePlanName}" "${servicePlanType}" "${location}" "${webAppName}" "${webAppType}" "${webAppGitRepo}" `, (code, stdout, stderr) => {
+        if (stderr) {
+          return res.json({ error: stderr });
+        } else {
+          return res.json({ success: `App ${webAppName} created on ${servicePlanName} service plan` });
+        }
+      });
     }
   });
-
 });
 
 

@@ -7,13 +7,22 @@ const router = express.Router();
 const scriptDir = path.join(__dirname, '../scripts');
 
 router.get('/', (req, res) => {
-  const groupName = req.user.preferred_username.split('@')[0];
 
-  shell.exec(`${scriptDir}/showResources.sh ${groupName}`, (code, stdout, stderr) => {
+  shell.exec(`${scriptDir}/findGroup.sh "${req.user.oid}"`, (code, stdout, stderr) => {
     if (stderr) {
-      return res.json([]);
+      return res.json({ error: stderr });
     } else {
-      return res.json(JSON.parse(stdout));
+      stdout = JSON.parse(stdout);
+      if (!stdout || stdout.role !== 'Owner') {
+        return res.json({ error: 'Insufficient privilege. Must be owner to create a new user.' });
+      }
+      shell.exec(`${scriptDir}/showResources.sh ${stdout.groupName}`, (code, stdout, stderr) => {
+        if (stderr) {
+          return res.json([]);
+        } else {
+          return res.json(JSON.parse(stdout));
+        }
+      });
     }
   });
 });
@@ -21,12 +30,22 @@ router.get('/', (req, res) => {
 
 router.delete('/', (req, res) => {
   const { id } = req.body;
-  console.log(req.body);
-  shell.exec(`${scriptDir}/deleteResource.sh "${id}"`, (code, stdout, stderr) => {
+
+  shell.exec(`${scriptDir}/findGroup.sh "${req.user.oid}"`, (code, stdout, stderr) => {
     if (stderr) {
       return res.json({ error: stderr });
     } else {
-      return res.json({ success: 'Deleted' });
+      stdout = JSON.parse(stdout);
+      if (!stdout || stdout.role !== 'Owner') {
+        return res.json({ error: 'Insufficient privilege. Must be owner to create a new user.' });
+      }
+      shell.exec(`${scriptDir}/deleteResource.sh "${id}"`, (code, stdout, stderr) => {
+        if (stderr) {
+          return res.json({ error: stderr });
+        } else {
+          return res.json({ success: 'Deleted' });
+        }
+      });
     }
   });
 });

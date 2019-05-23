@@ -6,21 +6,29 @@ const router = express.Router();
 const scriptDir = path.join(__dirname, '../scripts');
 
 router.post('/', (req, res) => {
-  const { groupName, netName, location } = req.body;
+  const { netName, location } = req.body;
 
-  if (!groupName || !netName || !location) {
+  if ( !netName || !location) {
     return res.json({ error: 'missing field' });
   }
 
-
-  shell.exec(`${scriptDir}/vnet.sh "${groupName}" "${netName}" "${location}" `, (code, stdout, stderr) => {
+  shell.exec(`${scriptDir}/findGroup.sh "${req.user.oid}"`, (code, stdout, stderr) => {
     if (stderr) {
       return res.json({ error: stderr });
     } else {
-      return res.json({ success: `Network ${netName} created` });
+      stdout = JSON.parse(stdout);
+      if (!stdout || stdout.role !== 'Owner') {
+        return res.json({ error: 'Insufficient privilege. Must be owner to create a new user.' });
+      }
+      shell.exec(`${scriptDir}/vnet.sh "${stdout.groupName}" "${netName}" "${location}" `, (code, stdout, stderr) => {
+        if (stderr) {
+          return res.json({ error: stderr });
+        } else {
+          return res.json({ success: `Network ${netName} created` });
+        }
+      });
     }
   });
-
 });
 
 

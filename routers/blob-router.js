@@ -6,21 +6,29 @@ const router = express.Router();
 const scriptDir = path.join(__dirname, '../scripts');
 
 router.post('/', (req, res) => {
-  const { groupName, blobName, location, storagePlan } = req.body;
+  const { blobName, location, storagePlan } = req.body;
 
-  if (!groupName || !blobName || !location || !storagePlan) {
+  if (!blobName || !location || !storagePlan) {
     return res.json({ error: 'missing field' });
   }
 
-
-  shell.exec(`${scriptDir}/blobStorage.sh "${groupName}" "${blobName}" "${location}" "${storagePlan}"`, (code, stdout, stderr) => {
+  shell.exec(`${scriptDir}/findGroup.sh "${req.user.oid}"`, (code, stdout, stderr) => {
     if (stderr) {
       return res.json({ error: stderr });
     } else {
-      return res.json({ success: `Storage account ${blobName} created` });
+      stdout = JSON.parse(stdout);
+      if (!stdout || stdout.role !== 'Owner') {
+        return res.json({ error: 'Insufficient privilege. Must be owner to create a new user.' });
+      }
+      shell.exec(`${scriptDir}/blobStorage.sh "${stdout.groupName}" "${blobName}" "${location}" "${storagePlan}"`, (code, stdout, stderr) => {
+        if (stderr) {
+          return res.json({ error: stderr });
+        } else {
+          return res.json({ success: `Storage account ${blobName} created` });
+        }
+      });
     }
   });
-
 });
 
 
