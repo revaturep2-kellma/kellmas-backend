@@ -6,11 +6,12 @@ const router = express.Router();
 const scriptDir = path.join(__dirname, '../scripts');
 
 router.post('/', (req, res) => {
-  const { netName, location } = req.body;
+  const { nsgName, netName, location, netType } = req.body;
 
-  if ( !netName || !location) {
+  if ( !nsgName || !netName || !location || !netType) {
     return res.json({ error: 'missing field' });
   }
+
 
   shell.exec(`${scriptDir}/findGroup.sh "${req.user.oid}"`, (code, stdout, stderr) => {
     if (stderr) {
@@ -20,13 +21,23 @@ router.post('/', (req, res) => {
       if (!stdout || stdout.role !== 'Owner') {
         return res.json({ error: 'Insufficient privilege. Must be owner to create a new user.' });
       }
-      shell.exec(`${scriptDir}/vnet.sh "${stdout.resourceGroup}" "${netName}" "${location}" `, (code, stdout, stderr) => {
-        if (stderr) {
-          return res.json({ error: stderr });
-        } else {
-          return res.json({ success: `Network ${netName} created` });
-        }
-      });
+      if ( netType === 'Private' ) {
+        return       shell.exec(`${scriptDir}/privateNet.sh "${stdout.resourceGroup}" "${nsgName}" "${location}" "${netName}" `, (code, stdout, stderr) => {
+          if (stderr) {
+            return res.json({ error: stderr });
+          } else {
+            return res.json({ success: `Private network ${netName} created` });
+          }
+        });
+      } else {
+        return       shell.exec(`${scriptDir}/publicNet.sh "${stdout.resourceGroup}" "${nsgName}" "${location}" "${netName}" `, (code, stdout, stderr) => {
+          if (stderr) {
+            return res.json({ error: stderr });
+          } else {
+            return res.json({ success: `Public network ${netName} created` });
+          }
+        });
+      }
     }
   });
 });
