@@ -16,4 +16,6 @@ if [ -n "$vnetCheck" ]; then
     echo "this network already exist please choose another"
 fi
 
-az network vnet create -g "$groupName" -n "$netName" --location "$location" 
+az network vnet create -g "$groupName" -n "$netName" --location "$location"  --address-prefixes 10.0.0.0/16
+
+az network vnet subnet create --vnet-name $netName --resource-group $groupName --name $netName --address-prefix 10.0.0.0/24 --network-security-group $nsgName
