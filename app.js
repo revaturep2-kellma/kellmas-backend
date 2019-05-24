@@ -20,6 +20,8 @@ const newNetworkRouter = require('./routers/vnet-router');
 // const newASPRouter = require('./routers/appService-router');
 const newWebAppRouter = require('./routers/webApp-router');
 const resourceRouter = require('./routers/resource-router');
+const roleRouter = require('./routers/role-router');
+const updateUserRouter = require('./routers/update-user-router');
 
 const app = express();
 
@@ -58,6 +60,8 @@ app.use('/newVM', bearerOption, newVMRouter);
 // app.use('/newASP', bearerOption, newASPRouter);
 app.use('/newWebApp', bearerOption, newWebAppRouter);
 app.use('/resources', bearerOption, resourceRouter);
+app.use('/roles', bearerOption, roleRouter);
+app.use('/updateUser', bearerOption, updateUserRouter);
 
 app.get('/', (req, res) => {
   res.send('Hello World');
