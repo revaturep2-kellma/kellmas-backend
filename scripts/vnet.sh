@@ -2,11 +2,11 @@
 
 groupName=$1
 nsgName=$2
-netName=$3
-location=$4
+location=$3
+netName=$4
 
 # Create a network security group
-az network nsg create --resource-group $groupName --name $nsgName
+az network nsg create --resource-group $groupName --name $nsgName --location $location
 
 az network nsg rule create --resource-group $groupName --nsg-name $nsgName --name Allow-Web-All --access Allow --protocol Tcp --direction Inbound --priority 100 --source-address-prefix Internet --source-port-range "*" --destination-asgs "myAsgWebServers" --destination-port-range 80 443
 
