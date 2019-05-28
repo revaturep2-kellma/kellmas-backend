@@ -8,7 +8,7 @@ netName=$4
 # Create a network security group
 az network nsg create --resource-group $groupName --name $nsgName --location $location
 
-az network nsg rule create --resource-group $groupName --nsg-name $nsgName --name Allow-Web-All --access Deny --protocol Tcp --direction Inbound --priority 100 --source-address-prefix Internet --source-port-range "*" --destination-port-range 80 443
+az network nsg rule create --resource-group $groupName --nsg-name $nsgName --name Allow-Web-All --access Deny --protocol Tcp --direction Inbound --priority 100 --source-address-prefix VirtualNetwork --source-port-range "*" --destination-port-range 80 443
 
 vnetCheck=$(az network vnet list --query [].name | grep -E "$netName")
 
