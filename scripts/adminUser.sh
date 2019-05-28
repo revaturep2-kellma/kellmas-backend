@@ -22,4 +22,4 @@ az ad group member add -g "$displayName" --member-id "$userOID"
 
 az group create --name "$groupName" --location "$location"
 
-az role assignment create --assignee "$principalName" --role Owner --resource-group "$groupName" --no-wait
+az role assignment create --assignee "$principalName" --role Owner --resource-group "$groupName"
